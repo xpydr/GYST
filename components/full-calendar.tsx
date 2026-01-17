@@ -3,6 +3,7 @@
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import timeGridPlugin from '@fullcalendar/timegrid';
 
 export default function Calendar() {
   const handleDateClick = (arg: { dateStr: string }) => {
@@ -11,9 +12,14 @@ export default function Calendar() {
 
   return (
     <FullCalendar
-      plugins={[ dayGridPlugin, interactionPlugin ]}
+      plugins={[ dayGridPlugin, interactionPlugin, timeGridPlugin ]}
       dateClick={handleDateClick}
-      initialView="dayGridMonth"
+      initialView="timeGridDay"
+      headerToolbar={{
+        left: 'prev,next',
+        center: 'title',
+        right: 'timeGridDay,timeGridWeek'
+      }}
     />
   )
 }

@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/sidebar"
 import Calendar from "@/components/full-calendar"
 import { Suspense } from "react"
+import { ThemeSwitcher } from "@/components/theme-switcher"
 
 export default function Dashboard() {
   return (
@@ -39,10 +40,10 @@ export default function Dashboard() {
             </div>
           </header>
           <div className="flex flex-1 flex-col gap-4 p-4">
-            <div className="bg-black mx-auto h-24 w-full max-w-3xl rounded-xl p-4">
+            <div className="mx-auto h-24 w-full max-w-7xl rounded-xl p-4">
               {/* TODO: Implement heatmap system here */}
             </div>
-            <div className="bg-black mx-auto h-screen w-full max-w-3xl rounded-xl p-4">
+            <div className="mx-auto h-screen w-full max-w-5xl rounded-xl p-4">
               {/* TODO: Implement day view with time blocks here */}
               <Calendar />
             </div>
