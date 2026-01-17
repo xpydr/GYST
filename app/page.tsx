@@ -1,4 +1,3 @@
-import { DeployButton } from "@/components/deploy-button";
 import { AuthButton } from "@/components/auth-button";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { CopyrightYear } from "@/components/copyright-year";
@@ -36,9 +35,6 @@ export default function Home() {
               <Link href={"/"} className="text-2xl font-bold neon-cyan pulse-neon">
                 GYST
               </Link>
-              <div className="hidden md:flex items-center gap-2">
-                <DeployButton />
-              </div>
             </div>
             <Suspense>
               <AuthButton />
