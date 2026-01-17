@@ -9,8 +9,19 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Next.js and Supabase Starter Kit",
-  description: "The fastest way to build apps with Next.js and Supabase",
+  title: "GYST - Productivity Platform | Time Blocking & Task Management",
+  description: "Experience the future of productivity with GYST. Advanced time blocking, task management, and calendar integration in a sleek interface. Transform your workflow today.",
+  keywords: ["productivity", "time blocking", "task management", "calendar", "productivity app"],
+  openGraph: {
+    title: "GYST - Productivity Platform",
+    description: "Experience the future of productivity with GYST. Advanced time blocking and task management.",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "GYST - Productivity Platform",
+    description: "Experience the future of productivity with GYST.",
+  },
 };
 
 const geistSans = Geist({
