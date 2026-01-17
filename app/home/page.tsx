@@ -41,7 +41,7 @@ export default function Dashboard() {
             <div className="bg-muted/50 mx-auto h-24 w-full max-w-3xl rounded-xl p-4">
               {/* TODO: Implement heatmap system here */}
             </div>
-            <div className="bg-muted/50 mx-auto h-[100vh] w-full max-w-3xl rounded-xl p-4">
+            <div className="bg-muted/50 mx-auto h-screen w-full max-w-3xl rounded-xl p-4">
               {/* TODO: Implement day view with time blocks here */}
             </div>
           </div>
