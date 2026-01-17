@@ -92,3 +92,104 @@
     @apply bg-(--background) text-(--foreground);
   }
 }
+
+/* Neon Effects */
+@layer utilities {
+  .neon-cyan {
+    color: #40e0d0;
+    text-shadow: 
+      0 0 5px #00ffff,
+      0 0 10px rgba(0, 255, 255, 0.8),
+      0 0 15px rgba(0, 255, 255, 0.6);
+    will-change: text-shadow;
+  }
+  
+  .neon-pink {
+    color: #ff69b4;
+    text-shadow: 
+      0 0 5px #ff00ff,
+      0 0 10px rgba(255, 0, 255, 0.8),
+      0 0 15px rgba(255, 0, 255, 0.6);
+    will-change: text-shadow;
+  }
+  
+  .glow-cyan {
+    box-shadow: 
+      0 0 8px #00ffff,
+      0 0 15px rgba(0, 255, 255, 0.6),
+      inset 0 0 8px rgba(0, 255, 255, 0.15);
+    will-change: box-shadow;
+  }
+  
+  .glow-pink {
+    box-shadow: 
+      0 0 8px #ff00ff,
+      0 0 15px rgba(255, 0, 255, 0.6),
+      inset 0 0 8px rgba(255, 0, 255, 0.15);
+    will-change: box-shadow;
+  }
+  
+  .glow-cyan-pink {
+    box-shadow: 
+      0 0 8px #00ffff,
+      0 0 12px #ff00ff,
+      inset 0 0 8px rgba(0, 255, 255, 0.1);
+    will-change: box-shadow;
+  }
+  
+  .cyber-grid {
+    background-image: 
+      linear-gradient(rgba(0, 255, 255, 0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 255, 255, 0.08) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: grid-move 30s linear infinite;
+    will-change: background-position;
+    transform: translateZ(0); 
+  }
+  
+  @keyframes grid-move {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 50px 50px;
+    }
+  }
+  
+  .pulse-neon {
+    animation: pulse-neon 3s ease-in-out infinite;
+    will-change: opacity;
+  }
+  
+  @keyframes pulse-neon {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.85;
+    }
+  }
+  
+  .float-animation {
+    animation: float 8s ease-in-out infinite;
+    will-change: transform;
+    transform: translateZ(0); 
+  }
+  
+  @keyframes float {
+    0%, 100% {
+      transform: translate3d(0, 0, 0);
+    }
+    50% {
+      transform: translate3d(0, -15px, 0);
+    }
+  }
+  
+  /* Pause animations when page visibility is hidden */
+  body.page-hidden .cyber-grid,
+  body.page-hidden .float-animation,
+  body.page-hidden .pulse-neon,
+  body.page-hidden .scan-line {
+    animation-play-state: paused !important;
+  }
+}
