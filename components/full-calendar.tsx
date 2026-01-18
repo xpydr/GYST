@@ -606,6 +606,7 @@ export default function Calendar() {
                   onChange={(e) => setEditColor(e.target.value)}
                   placeholder="#3788d8"
                   className="flex-1"
+                  maxLength={7}
                 />
               </div>
             </div>
