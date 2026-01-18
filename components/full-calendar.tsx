@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 
 // Dynamic import with parallel plugin loading for better code splitting
 const FullCalendar = dynamic(
@@ -98,12 +99,19 @@ export default function Calendar() {
   
   // Dialog states
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [errorDialogOpen, setErrorDialogOpen] = useState(false);
   const [eventTitle, setEventTitle] = useState('');
   const [pendingSelectInfo, setPendingSelectInfo] = useState<DateSelectArg | null>(null);
   const [pendingClickInfo, setPendingClickInfo] = useState<EventClickArg | null>(null);
   const [errorMessage, setErrorMessage] = useState('');
+  
+  // Edit dialog form state
+  const [editTitle, setEditTitle] = useState('');
+  const [editDescription, setEditDescription] = useState('');
+  const [editColor, setEditColor] = useState('#3788d8');
+  const [editStartTime, setEditStartTime] = useState('');
+  const [editEndTime, setEditEndTime] = useState('');
 
   // Load events from database
   const loadEvents = useCallback(async () => {
@@ -267,12 +275,33 @@ export default function Calendar() {
   const handleEventClick = useCallback((clickInfo: EventClickArg) => {
     if (!userId) return;
     setPendingClickInfo(clickInfo);
-    setDeleteDialogOpen(true);
+    
+    // Populate edit form with event data
+    const event = clickInfo.event;
+    setEditTitle(event.title || '');
+    setEditDescription((event.extendedProps?.desc as string) || '');
+    setEditColor(event.backgroundColor || event.borderColor || '#3788d8');
+    
+    // Format dates for datetime-local input (YYYY-MM-DDTHH:mm)
+    const formatDateTimeLocal = (date: Date | null | undefined) => {
+      if (!date) return '';
+      const d = new Date(date);
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      const hours = String(d.getHours()).padStart(2, '0');
+      const minutes = String(d.getMinutes()).padStart(2, '0');
+      return `${year}-${month}-${day}T${hours}:${minutes}`;
+    };
+    
+    setEditStartTime(formatDateTimeLocal(event.start));
+    setEditEndTime(formatDateTimeLocal(event.end || event.start));
+    
+    setEditDialogOpen(true);
   }, [userId]);
 
-  const handleDeleteEvent = useCallback(async () => {
-    if (!userId || !pendingClickInfo) {
-      setDeleteDialogOpen(false);
+  const handleSaveEvent = useCallback(async () => {
+    if (!userId || !pendingClickInfo || !editTitle.trim()) {
       return;
     }
 
@@ -280,7 +309,95 @@ export default function Calendar() {
     
     if (isNaN(eventId)) {
       console.error('Invalid event ID:', pendingClickInfo.event.id);
-      setDeleteDialogOpen(false);
+      setEditDialogOpen(false);
+      setPendingClickInfo(null);
+      return;
+    }
+
+    const supabase = createClient();
+    
+    // Parse datetime-local strings to Date objects
+    const startDate = new Date(editStartTime);
+    const endDate = new Date(editEndTime);
+    
+    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+      setErrorMessage('Invalid date/time values. Please check your inputs.');
+      setErrorDialogOpen(true);
+      return;
+    }
+    
+    // Update event in database
+    const { error } = await supabase
+      .from('events')
+      .update({
+        info: {
+          start: startDate.getTime(),
+          end: endDate.getTime(),
+          title: editTitle.trim(),
+          desc: editDescription.trim(),
+          color: editColor,
+          allday: false, // We're using datetime inputs, so not all-day
+        },
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', eventId)
+      .eq('user_id', userId);
+
+    if (error) {
+      console.error('Error updating event:', error);
+      setErrorMessage('Failed to update event. Please try again.');
+      setErrorDialogOpen(true);
+      return;
+    }
+
+    // Update local state
+    setEvents((prev) =>
+      prev.map((e) =>
+        e.id === pendingClickInfo.event.id
+          ? {
+              ...e,
+              title: editTitle.trim(),
+              start: startDate.toISOString(),
+              end: endDate.toISOString(),
+              color: editColor,
+              extendedProps: {
+                ...e.extendedProps,
+                desc: editDescription.trim(),
+              },
+            }
+          : e
+      )
+    );
+    
+    // Update the calendar event
+    pendingClickInfo.event.setProp('title', editTitle.trim());
+    pendingClickInfo.event.setStart(startDate);
+    pendingClickInfo.event.setEnd(endDate);
+    pendingClickInfo.event.setProp('backgroundColor', editColor);
+    pendingClickInfo.event.setExtendedProp('desc', editDescription.trim());
+    
+    setEditDialogOpen(false);
+    setPendingClickInfo(null);
+    // Reset form
+    setEditTitle('');
+    setEditDescription('');
+    setEditColor('#3788d8');
+    setEditStartTime('');
+    setEditEndTime('');
+  }, [userId, pendingClickInfo, editTitle, editDescription, editColor, editStartTime, editEndTime]);
+
+  const handleDeleteEvent = useCallback(async () => {
+    if (!userId || !pendingClickInfo) {
+      setEditDialogOpen(false);
+      return;
+    }
+
+    const eventId = parseInt(pendingClickInfo.event.id as string);
+    
+    if (isNaN(eventId)) {
+      console.error('Invalid event ID:', pendingClickInfo.event.id);
+      setEditDialogOpen(false);
+      setPendingClickInfo(null);
       return;
     }
 
@@ -297,15 +414,20 @@ export default function Calendar() {
       console.error('Error deleting event:', error);
       setErrorMessage('Failed to delete event. Please try again.');
       setErrorDialogOpen(true);
-      setDeleteDialogOpen(false);
       return;
     }
 
     // Remove from local state
     setEvents((prev) => prev.filter((e) => e.id !== pendingClickInfo.event.id));
     pendingClickInfo.event.remove();
-    setDeleteDialogOpen(false);
+    setEditDialogOpen(false);
     setPendingClickInfo(null);
+    // Reset form
+    setEditTitle('');
+    setEditDescription('');
+    setEditColor('#3788d8');
+    setEditStartTime('');
+    setEditEndTime('');
   }, [userId, pendingClickInfo]);
 
   function renderEventContent(eventInfo: { timeText?: string; event: any }) {
@@ -413,36 +535,101 @@ export default function Calendar() {
         </DialogContent>
       </Dialog>
 
-      {/* Delete Confirmation Dialog */}
+      {/* Edit Event Dialog */}
       <Dialog
-        open={deleteDialogOpen}
+        open={editDialogOpen}
         onOpenChange={(open) => {
-          setDeleteDialogOpen(open);
+          setEditDialogOpen(open);
           if (!open) {
             setPendingClickInfo(null);
+            // Reset form
+            setEditTitle('');
+            setEditDescription('');
+            setEditColor('#3788d8');
+            setEditStartTime('');
+            setEditEndTime('');
           }
         }}
       >
-        <DialogContent>
+        <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle>Delete Event</DialogTitle>
+            <DialogTitle>Edit Event</DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete this event?
+              Update event details or delete the event.
             </DialogDescription>
           </DialogHeader>
-          {pendingClickInfo && (
-            <div className="py-4">
-              <p className="text-sm">
-                Delete <strong>&quot;{pendingClickInfo.event.title}&quot;</strong>?
-              </p>
+          <div className="py-4 space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="edit-title">Title</Label>
+              <Input
+                id="edit-title"
+                type="text"
+                placeholder="Event title"
+                value={editTitle}
+                onChange={(e) => setEditTitle(e.target.value)}
+                autoFocus
+              />
             </div>
-          )}
+            <div className="space-y-2">
+              <Label htmlFor="edit-description">Description</Label>
+              <Input
+                id="edit-description"
+                type="text"
+                placeholder="Event description"
+                value={editDescription}
+                onChange={(e) => setEditDescription(e.target.value)}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="edit-color">Color</Label>
+              <div className="flex items-center gap-2">
+                <Input
+                  id="edit-color"
+                  type="color"
+                  value={editColor}
+                  onChange={(e) => setEditColor(e.target.value)}
+                  className="h-10 w-20 cursor-pointer"
+                />
+                <Input
+                  type="text"
+                  value={editColor}
+                  onChange={(e) => setEditColor(e.target.value)}
+                  placeholder="#3788d8"
+                  className="flex-1"
+                />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="edit-start">Start Time</Label>
+              <Input
+                id="edit-start"
+                type="datetime-local"
+                value={editStartTime}
+                onChange={(e) => setEditStartTime(e.target.value)}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="edit-end">End Time</Label>
+              <Input
+                id="edit-end"
+                type="datetime-local"
+                value={editEndTime}
+                onChange={(e) => setEditEndTime(e.target.value)}
+              />
+            </div>
+          </div>
           <DialogFooter>
             <Button
               variant="outline"
               onClick={() => {
-                setDeleteDialogOpen(false);
+                setEditDialogOpen(false);
                 setPendingClickInfo(null);
+                // Reset form
+                setEditTitle('');
+                setEditDescription('');
+                setEditColor('#3788d8');
+                setEditStartTime('');
+                setEditEndTime('');
               }}
             >
               Cancel
@@ -452,6 +639,12 @@ export default function Calendar() {
               onClick={handleDeleteEvent}
             >
               Delete
+            </Button>
+            <Button
+              onClick={handleSaveEvent}
+              disabled={!editTitle.trim()}
+            >
+              Save
             </Button>
           </DialogFooter>
         </DialogContent>
