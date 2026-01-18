@@ -309,7 +309,6 @@ export default function Calendar() {
       eventChange={handleEventChange}
       eventClick={handleEventClick}
       eventContent={renderEventContent}
-      timeZone="America/Toronto"
     />
   );
 }
