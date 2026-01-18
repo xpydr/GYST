@@ -431,10 +431,16 @@ export default function Calendar() {
   }, [userId, pendingClickInfo]);
 
   function renderEventContent(eventInfo: { timeText?: string; event: any }) {
+    const description = eventInfo.event.extendedProps?.desc;
     return (
       <>
         <b>{eventInfo.timeText}</b>
         <i>{eventInfo.event.title}</i>
+        {description && (
+          <div style={{ fontSize: '0.85em', marginTop: '2px', opacity: 0.9 }}>
+            {description}
+          </div>
+        )}
       </>
     );
   }
@@ -578,6 +584,7 @@ export default function Calendar() {
                 placeholder="Event description"
                 value={editDescription}
                 onChange={(e) => setEditDescription(e.target.value)}
+                maxLength={200}
               />
             </div>
             <div className="space-y-2">
