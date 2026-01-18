@@ -4,6 +4,16 @@ import dynamic from 'next/dynamic';
 import { useState, useCallback, useRef, useEffect } from 'react';
 import type { EventInput, DateSelectArg, EventChangeArg, EventClickArg } from '@fullcalendar/core';
 import { createClient } from "@/lib/supabase/client";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 // Dynamic import with parallel plugin loading for better code splitting
 const FullCalendar = dynamic(
@@ -85,6 +95,15 @@ export default function Calendar() {
   const [userId, setUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const calendarRef = useRef<any>(null);
+  
+  // Dialog states
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [errorDialogOpen, setErrorDialogOpen] = useState(false);
+  const [eventTitle, setEventTitle] = useState('');
+  const [pendingSelectInfo, setPendingSelectInfo] = useState<DateSelectArg | null>(null);
+  const [pendingClickInfo, setPendingClickInfo] = useState<EventClickArg | null>(null);
+  const [errorMessage, setErrorMessage] = useState('');
 
   // Load events from database
   const loadEvents = useCallback(async () => {
@@ -122,12 +141,19 @@ export default function Calendar() {
     loadEvents();
   }, [loadEvents]);
 
-  const handleSelect = useCallback(async (selectInfo: DateSelectArg) => {
+  const handleSelect = useCallback((selectInfo: DateSelectArg) => {
     if (!userId) return;
+    setPendingSelectInfo(selectInfo);
+    setEventTitle('');
+    setCreateDialogOpen(true);
+  }, [userId]);
 
-    const title = prompt('Please enter a title for the event:');
-    if (!title) {
-      selectInfo.view.calendar.unselect();
+  const handleCreateEvent = useCallback(async () => {
+    if (!userId || !pendingSelectInfo || !eventTitle.trim()) {
+      if (pendingSelectInfo) {
+        pendingSelectInfo.view.calendar.unselect();
+      }
+      setCreateDialogOpen(false);
       return;
     }
 
@@ -135,10 +161,10 @@ export default function Calendar() {
     
     // Create event in database
     const newEvent: EventInput = {
-      title,
-      start: selectInfo.startStr,
-      end: selectInfo.endStr,
-      allDay: selectInfo.allDay,
+      title: eventTitle.trim(),
+      start: pendingSelectInfo.startStr,
+      end: pendingSelectInfo.endStr,
+      allDay: pendingSelectInfo.allDay,
     };
 
     const dbData = eventInputToDbInfo(newEvent, userId);
@@ -151,16 +177,21 @@ export default function Calendar() {
 
     if (error) {
       console.error('Error creating event:', error);
-      alert('Failed to create event. Please try again.');
-      selectInfo.view.calendar.unselect();
+      setErrorMessage('Failed to create event. Please try again.');
+      setErrorDialogOpen(true);
+      pendingSelectInfo.view.calendar.unselect();
+      setCreateDialogOpen(false);
       return;
     }
 
     // Add to local state
     const calendarEvent = dbEventToEventInput(insertedEvent);
     setEvents((prev) => [...prev, calendarEvent]);
-    selectInfo.view.calendar.unselect();
-  }, [userId]);
+    pendingSelectInfo.view.calendar.unselect();
+    setCreateDialogOpen(false);
+    setEventTitle('');
+    setPendingSelectInfo(null);
+  }, [userId, pendingSelectInfo, eventTitle]);
 
   const handleEventChange = useCallback(async (changeInfo: EventChangeArg) => {
     if (!userId) return;
@@ -211,7 +242,8 @@ export default function Calendar() {
 
     if (error) {
       console.error('Error updating event:', error);
-      alert('Failed to update event. Please try again.');
+      setErrorMessage('Failed to update event. Please try again.');
+      setErrorDialogOpen(true);
       // Revert the change by reloading events
       loadEvents();
       return;
@@ -232,15 +264,23 @@ export default function Calendar() {
     );
   }, [userId, loadEvents]);
 
-  const handleEventClick = useCallback(async (clickInfo: EventClickArg) => {
+  const handleEventClick = useCallback((clickInfo: EventClickArg) => {
     if (!userId) return;
+    setPendingClickInfo(clickInfo);
+    setDeleteDialogOpen(true);
+  }, [userId]);
 
-    if (!confirm(`Delete '${clickInfo.event.title}'?`)) return;
+  const handleDeleteEvent = useCallback(async () => {
+    if (!userId || !pendingClickInfo) {
+      setDeleteDialogOpen(false);
+      return;
+    }
 
-    const eventId = parseInt(clickInfo.event.id as string);
+    const eventId = parseInt(pendingClickInfo.event.id as string);
     
     if (isNaN(eventId)) {
-      console.error('Invalid event ID:', clickInfo.event.id);
+      console.error('Invalid event ID:', pendingClickInfo.event.id);
+      setDeleteDialogOpen(false);
       return;
     }
 
@@ -255,14 +295,18 @@ export default function Calendar() {
 
     if (error) {
       console.error('Error deleting event:', error);
-      alert('Failed to delete event. Please try again.');
+      setErrorMessage('Failed to delete event. Please try again.');
+      setErrorDialogOpen(true);
+      setDeleteDialogOpen(false);
       return;
     }
 
     // Remove from local state
-    setEvents((prev) => prev.filter((e) => e.id !== clickInfo.event.id));
-    clickInfo.event.remove();
-  }, [userId]);
+    setEvents((prev) => prev.filter((e) => e.id !== pendingClickInfo.event.id));
+    pendingClickInfo.event.remove();
+    setDeleteDialogOpen(false);
+    setPendingClickInfo(null);
+  }, [userId, pendingClickInfo]);
 
   function renderEventContent(eventInfo: { timeText?: string; event: any }) {
     return (
@@ -290,25 +334,145 @@ export default function Calendar() {
   }
 
   return (
-    <FullCalendar
-      ref={calendarRef}
-      initialView="timeGridDay"
-      headerToolbar={{
-        left: 'prev,next today',
-        center: 'title',
-        right: 'timeGridDay,timeGridWeek,dayGridMonth',
-      }}
-      height="auto"
-      aspectRatio={1.8}
-      nowIndicator
-      editable
-      selectable
-      selectMirror
-      events={events}
-      select={handleSelect}
-      eventChange={handleEventChange}
-      eventClick={handleEventClick}
-      eventContent={renderEventContent}
-    />
+    <>
+      <FullCalendar
+        ref={calendarRef}
+        initialView="timeGridDay"
+        headerToolbar={{
+          left: 'prev,next today',
+          center: 'title',
+          right: 'timeGridDay,timeGridWeek,dayGridMonth',
+        }}
+        height="auto"
+        aspectRatio={1.8}
+        nowIndicator
+        editable
+        selectable
+        selectMirror
+        events={events}
+        select={handleSelect}
+        eventChange={handleEventChange}
+        eventClick={handleEventClick}
+        eventContent={renderEventContent}
+      />
+
+      {/* Create Event Dialog */}
+      <Dialog
+        open={createDialogOpen}
+        onOpenChange={(open) => {
+          setCreateDialogOpen(open);
+          if (!open && pendingSelectInfo) {
+            pendingSelectInfo.view.calendar.unselect();
+            setEventTitle('');
+            setPendingSelectInfo(null);
+          }
+        }}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Create New Event</DialogTitle>
+            <DialogDescription>
+              Please enter a title for the event.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-4">
+            <Input
+              type="text"
+              placeholder="Event title"
+              value={eventTitle}
+              onChange={(e) => setEventTitle(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  handleCreateEvent();
+                }
+              }}
+              autoFocus
+            />
+          </div>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => {
+                if (pendingSelectInfo) {
+                  pendingSelectInfo.view.calendar.unselect();
+                }
+                setCreateDialogOpen(false);
+                setEventTitle('');
+                setPendingSelectInfo(null);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleCreateEvent}
+              disabled={!eventTitle.trim()}
+            >
+              Create
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog
+        open={deleteDialogOpen}
+        onOpenChange={(open) => {
+          setDeleteDialogOpen(open);
+          if (!open) {
+            setPendingClickInfo(null);
+          }
+        }}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Delete Event</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to delete this event?
+            </DialogDescription>
+          </DialogHeader>
+          {pendingClickInfo && (
+            <div className="py-4">
+              <p className="text-sm">
+                Delete <strong>&quot;{pendingClickInfo.event.title}&quot;</strong>?
+              </p>
+            </div>
+          )}
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => {
+                setDeleteDialogOpen(false);
+                setPendingClickInfo(null);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={handleDeleteEvent}
+            >
+              Delete
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Error Dialog */}
+      <Dialog open={errorDialogOpen} onOpenChange={setErrorDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Error</DialogTitle>
+            <DialogDescription>
+              {errorMessage}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button onClick={() => setErrorDialogOpen(false)}>
+              OK
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
