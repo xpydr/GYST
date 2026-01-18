@@ -430,13 +430,14 @@ export default function Calendar() {
     setEditEndTime('');
   }, [userId, pendingClickInfo]);
 
-  function renderEventContent(eventInfo: { timeText?: string; event: any }) {
+  function renderEventContent(eventInfo: { timeText?: string; event: any; view: any }) {
     const description = eventInfo.event.extendedProps?.desc;
+    const isTimeGridDayView = eventInfo.view?.type === 'timeGridDay';
     return (
       <>
         <b>{eventInfo.timeText}</b>
         <i>{eventInfo.event.title}</i>
-        {description && (
+        {description && isTimeGridDayView && (
           <div style={{ fontSize: '0.85em', marginTop: '2px', opacity: 0.9 }}>
             {description}
           </div>
