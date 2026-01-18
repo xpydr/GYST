@@ -515,6 +515,7 @@ export default function Calendar() {
                   handleCreateEvent();
                 }
               }}
+              maxLength={50}
               autoFocus
             />
           </div>
@@ -575,6 +576,7 @@ export default function Calendar() {
                 value={editTitle}
                 onChange={(e) => setEditTitle(e.target.value)}
                 autoFocus
+                maxLength={50}
               />
             </div>
             <div className="space-y-2">
