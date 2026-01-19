@@ -35,25 +35,25 @@ export default function Dashboard() {
       <SidebarProvider>
         <SidebarLeft />
         <SidebarInset>
-          <header className="bg-background sticky top-0 flex h-14 shrink-0 items-center gap-2">
+          <header className="bg-background sticky top-0 flex h-14 shrink-0 items-center gap-2 border-b border-cyan-500/20 backdrop-blur-sm bg-background/95">
             <div className="flex flex-1 items-center gap-2 px-3">
               <SidebarTrigger />
               <Separator
                 orientation="vertical"
-                className="mr-2 data-[orientation=vertical]:h-4"
+                className="mr-2 data-[orientation=vertical]:h-4 border-cyan-500/20"
               />
               <Breadcrumb>
                 <BreadcrumbList>
                   <BreadcrumbItem>
-                    <BreadcrumbPage className="line-clamp-1">
-                      GYST
+                    <BreadcrumbPage className="line-clamp-1 neon-cyan font-bold">
+                      : )
                     </BreadcrumbPage>
                   </BreadcrumbItem>
                 </BreadcrumbList>
               </Breadcrumb>
             </div>
           </header>
-          <div className="flex flex-1 flex-col gap-4 p-4">
+          <div className="flex flex-1 flex-col gap-4 p-4 bg-background">
             <div className="mx-auto w-full max-w-5xl rounded-xl p-4">
               <Calendar />
             </div>
@@ -61,7 +61,7 @@ export default function Dashboard() {
         </SidebarInset>
         <SidebarRight />
       </SidebarProvider>
-      <footer className="w-full flex items-center justify-center border-t mx-auto text-center text-xs gap-8 py-16">
+      <footer className="w-full flex items-center justify-center border-t border-cyan-500/20 mx-auto text-center text-xs gap-8 py-16 bg-background/50">
         <ThemeSwitcher />
       </footer>
     </Suspense>

@@ -3,73 +3,77 @@
 
 @layer base {
   :root {
+    /* Light Mode - White Primary with Black Accents */
+    /* White backgrounds with black accents and shadows */
     --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
+    --foreground: 0 0% 0%;
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
+    --card-foreground: 0 0% 0%;
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
-    --destructive: 0 84.2% 60.2%;
+    --popover-foreground: 0 0% 0%;
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 0 0% 98%;
+    --secondary-foreground: 0 0% 0%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 20%;
+    --accent: 0 0% 0%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
+    --border: 0 0% 0%;
+    --input: 0 0% 100%;
+    --ring: 0 0% 0%;
+    --chart-1: 0 0% 0%;
+    --chart-2: 0 0% 20%;
+    --chart-3: 0 0% 40%;
+    --chart-4: 0 0% 60%;
+    --chart-5: 0 0% 80%;
     --radius: 0.5rem;
-    --sidebar: hsl(0 0% 98%);
-    --sidebar-foreground: hsl(240 5.3% 26.1%);
-    --sidebar-primary: hsl(240 5.9% 10%);
-    --sidebar-primary-foreground: hsl(0 0% 98%);
-    --sidebar-accent: hsl(240 4.8% 95.9%);
-    --sidebar-accent-foreground: hsl(240 5.9% 10%);
-    --sidebar-border: hsl(220 13% 91%);
-    --sidebar-ring: hsl(217.2 91.2% 59.8%);
+    --sidebar: hsl(0 0% 100%);
+    --sidebar-foreground: hsl(0 0% 0%);
+    --sidebar-primary: hsl(0 0% 100%);
+    --sidebar-primary-foreground: hsl(0 0% 0%);
+    --sidebar-accent: hsl(0 0% 0%);
+    --sidebar-accent-foreground: hsl(0 0% 100%);
+    --sidebar-border: hsl(0 0% 0%);
+    --sidebar-ring: hsl(0 0% 0%);
   }
   .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
+    /* Dark Mode - Pure Cyberpunk Theme */
+    /* Pure black with vibrant neon cyan and pink */
+    --background: 0 0% 0%;
+    --foreground: 180 100% 98%;
+    --card: 0 0% 0%;
+    --card-foreground: 180 100% 98%;
+    --popover: 0 0% 0%;
+    --popover-foreground: 180 100% 98%;
+    --primary: 0 0% 0%;
+    --primary-foreground: 180 100% 50%;
+    --secondary: 0 0% 0%;
+    --secondary-foreground: 180 100% 90%;
+    --muted: 0 0% 0%;
+    --muted-foreground: 180 30% 75%;
+    --accent: 180 100% 50%;
+    --accent-foreground: 0 0% 0%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-    --sidebar: hsl(240 5.9% 10%);
-    --sidebar-foreground: hsl(240 4.8% 95.9%);
-    --sidebar-primary: hsl(224.3 76.3% 48%);
-    --sidebar-primary-foreground: hsl(0 0% 100%);
-    --sidebar-accent: hsl(240 3.7% 15.9%);
-    --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
-    --sidebar-border: hsl(240 3.7% 15.9%);
-    --sidebar-ring: hsl(217.2 91.2% 59.8%);
+    --border: 180 100% 40%;
+    --input: 0 0% 0%;
+    --ring: 180 100% 50%;
+    --chart-1: 180 100% 50%;
+    --chart-2: 330 100% 70%;
+    --chart-3: 180 90% 45%;
+    --chart-4: 330 90% 65%;
+    --chart-5: 180 70% 40%;
+    --sidebar: hsl(0 0% 0%);
+    --sidebar-foreground: hsl(180 50% 90%);
+    --sidebar-primary: hsl(180 100% 50%);
+    --sidebar-primary-foreground: hsl(0 0% 0%);
+    --sidebar-accent: hsl(0 0% 0%);
+    --sidebar-accent-foreground: hsl(180 100% 50%);
+    --sidebar-border: hsl(180 100% 35%);
+    --sidebar-ring: hsl(180 100% 50%);
   }
 }
 
@@ -88,13 +92,189 @@
   * {
     @apply border-(--border) outline-(--ring)/50;
   }
+  html {
+    @apply bg-(--background);
+  }
   body {
     @apply bg-(--background) text-(--foreground);
   }
+  
+  /* Force black background in dark mode */
+  .dark {
+    background-color: hsl(0 0% 0%) !important;
+  }
+  
+  .dark body {
+    background-color: hsl(0 0% 0%) !important;
+  }
+  
+  .dark [data-slot="sidebar-wrapper"] {
+    background-color: hsl(0 0% 0%) !important;
+  }
+  
+  .dark [data-slot="sidebar-inset"],
+  .dark [data-slot="sidebar-inset"] > * {
+    background-color: hsl(0 0% 0%) !important;
+  }
+  
+  .dark main {
+    background-color: hsl(0 0% 0%) !important;
+  }
+  
+  .dark .bg-background {
+    background-color: hsl(0 0% 0%) !important;
+  }
+  
+  /* Light mode: Black shadow focus effects */
+  :root input:focus-visible,
+  :root textarea:focus-visible,
+  :root select:focus-visible {
+    border-color: hsl(var(--ring));
+    box-shadow: 
+      0 0 0 2px rgba(0, 0, 0, 0.1),
+      0 0 0 4px rgba(0, 0, 0, 0.05),
+      0 4px 12px rgba(0, 0, 0, 0.15),
+      0 8px 24px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Dark mode: Keep original cyan focus effects */
+  .dark input:focus-visible,
+  .dark textarea:focus-visible,
+  .dark select:focus-visible {
+    border-color: hsl(var(--ring));
+    box-shadow: 
+      0 0 0 3px hsl(var(--ring) / 0.2),
+      0 0 8px hsl(var(--ring) / 0.4);
+  }
+  
+  /* Light mode: Black shadow button hover effects */
+  :root button:hover:not(:disabled) {
+    transition: all 0.2s ease;
+    box-shadow: 
+      0 2px 8px rgba(0, 0, 0, 0.1),
+      0 4px 16px rgba(0, 0, 0, 0.08);
+  }
+  
+  /* Dark mode: Keep original button hover effects */
+  .dark button:hover:not(:disabled) {
+    transition: all 0.2s ease;
+  }
+  
+  /* Light mode: Black borders and shadows for floating effect on cards and containers */
+  :root [data-slot="card"],
+  :root .card {
+    border: 1px solid rgba(0, 0, 0, 0.15) !important;
+    box-shadow: 
+      0 2px 8px rgba(0, 0, 0, 0.08),
+      0 4px 16px rgba(0, 0, 0, 0.06),
+      0 8px 32px rgba(0, 0, 0, 0.04) !important;
+    transition: all 0.3s ease;
+  }
+  
+  /* Enhanced floating effect on hover in light mode */
+  :root [data-slot="card"]:hover,
+  :root .card:hover {
+    box-shadow: 
+      0 4px 12px rgba(0, 0, 0, 0.12),
+      0 8px 24px rgba(0, 0, 0, 0.08),
+      0 16px 48px rgba(0, 0, 0, 0.06) !important;
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+  }
+  
+  /* Cyberpunk border accents (for dark mode) */
+  .border-cyan {
+    border-color: rgba(0, 255, 255, 0.3);
+  }
+  
+  .border-pink {
+    border-color: rgba(255, 0, 255, 0.3);
+  }
+  
+  .dark .border-cyan {
+    border-color: rgba(0, 255, 255, 0.5);
+  }
+  
+  .dark .border-pink {
+    border-color: rgba(255, 0, 255, 0.5);
+  }
+  
+  /* Text color utilities for cyberpunk theme */
+  .text-cyan-neon {
+    color: #00ffff;
+  }
+  
+  .text-pink-neon {
+    color: #ff00ff;
+  }
+  
+  .light .text-cyan-neon {
+    color: #40e0d0;
+  }
+  
+  .light .text-pink-neon {
+    color: #ff69b4;
+  }
+  
+  /* Background gradient utilities */
+  .bg-cyan-gradient {
+    background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(0, 255, 255, 0.05));
+  }
+  
+  .bg-pink-gradient {
+    background: linear-gradient(135deg, rgba(255, 0, 255, 0.1), rgba(255, 0, 255, 0.05));
+  }
+  
+  .bg-cyan-pink-gradient {
+    background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(255, 0, 255, 0.1));
+  }
+  
+  .dark .bg-cyan-gradient {
+    background: linear-gradient(135deg, rgba(0, 255, 255, 0.15), rgba(0, 255, 255, 0.08));
+  }
+  
+  .dark .bg-pink-gradient {
+    background: linear-gradient(135deg, rgba(255, 0, 255, 0.15), rgba(255, 0, 255, 0.08));
+  }
+  
+  .dark .bg-cyan-pink-gradient {
+    background: linear-gradient(135deg, rgba(0, 255, 255, 0.15), rgba(255, 0, 255, 0.15));
+  }
 }
 
-/* Neon Effects */
+/* Shadow Effects */
 @layer utilities {
+  /* Light mode: Black shadow utilities */
+  :root .shadow-black-float {
+    box-shadow: 
+      0 2px 8px rgba(0, 0, 0, 0.1),
+      0 4px 16px rgba(0, 0, 0, 0.08),
+      0 8px 32px rgba(0, 0, 0, 0.06);
+  }
+  
+  :root .shadow-black-float-lg {
+    box-shadow: 
+      0 4px 16px rgba(0, 0, 0, 0.12),
+      0 8px 32px rgba(0, 0, 0, 0.1),
+      0 16px 64px rgba(0, 0, 0, 0.08);
+  }
+  
+  :root .shadow-black-glow {
+    box-shadow: 
+      0 0 8px rgba(0, 0, 0, 0.2),
+      0 0 16px rgba(0, 0, 0, 0.15),
+      0 0 32px rgba(0, 0, 0, 0.1);
+  }
+  
+  :root .border-black {
+    border-color: rgba(0, 0, 0, 0.15);
+  }
+  
+  :root .border-black-strong {
+    border-color: rgba(0, 0, 0, 0.25);
+  }
+  
+  /* Neon Effects (for dark mode) */
   .neon-cyan {
     color: #40e0d0;
     text-shadow: 
@@ -185,11 +365,699 @@
     }
   }
   
+  .scan-line {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .scan-line::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(0, 255, 255, 0.4),
+      transparent
+    );
+    animation: scan 3s linear infinite;
+    pointer-events: none;
+    z-index: 1;
+  }
+  
+  @keyframes scan {
+    0% {
+      left: -100%;
+    }
+    100% {
+      left: 100%;
+    }
+  }
+  
+  /* Light mode neon effects - softer */
+  .light .neon-cyan {
+    color: #40e0d0;
+    text-shadow: 
+      0 0 3px #00ffff,
+      0 0 6px rgba(0, 255, 255, 0.5),
+      0 0 9px rgba(0, 255, 255, 0.3);
+  }
+  
+  .light .neon-pink {
+    color: #ff69b4;
+    text-shadow: 
+      0 0 3px #ff00ff,
+      0 0 6px rgba(255, 0, 255, 0.5),
+      0 0 9px rgba(255, 0, 255, 0.3);
+  }
+  
+  .light .glow-cyan {
+    box-shadow: 
+      0 0 5px #00ffff,
+      0 0 10px rgba(0, 255, 255, 0.4),
+      inset 0 0 5px rgba(0, 255, 255, 0.1);
+  }
+  
+  .light .glow-pink {
+    box-shadow: 
+      0 0 5px #ff00ff,
+      0 0 10px rgba(255, 0, 255, 0.4),
+      inset 0 0 5px rgba(255, 0, 255, 0.1);
+  }
+  
+  .light .glow-cyan-pink {
+    box-shadow: 
+      0 0 5px #00ffff,
+      0 0 8px #ff00ff,
+      inset 0 0 5px rgba(0, 255, 255, 0.08);
+  }
+  
+  .light .cyber-grid {
+    background-image: 
+      linear-gradient(rgba(0, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 255, 255, 0.05) 1px, transparent 1px);
+    opacity: 0.4;
+  }
+  
   /* Pause animations when page visibility is hidden */
   body.page-hidden .cyber-grid,
   body.page-hidden .float-animation,
   body.page-hidden .pulse-neon,
-  body.page-hidden .scan-line {
+  body.page-hidden .scan-line::before {
     animation-play-state: paused !important;
+  }
+  
+  /* FullCalendar Theme Styles */
+  .calendar-wrapper {
+    position: relative;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid hsl(var(--border));
+  }
+  
+  /* Light mode: Black shadows */
+  :root .calendar-wrapper {
+    box-shadow: 
+      0 2px 8px rgba(0, 0, 0, 0.1),
+      0 4px 16px rgba(0, 0, 0, 0.08),
+      0 8px 32px rgba(0, 0, 0, 0.06);
+  }
+  
+  /* Dark mode: Cyan shadows */
+  .dark .calendar-wrapper {
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+  }
+  
+  .fc {
+    --fc-border-color: hsl(var(--border));
+    --fc-page-bg-color: hsl(var(--background));
+    --fc-event-bg-color: #00ffff;
+    --fc-event-border-color: #00ffff;
+    --fc-event-text-color: #000000;
+    --fc-non-business-color: hsl(var(--muted));
+    --fc-bg-event-color: hsl(var(--accent) / 0.1);
+    --fc-highlight-color: hsl(var(--accent) / 0.2);
+    --fc-today-bg-color: hsl(var(--accent) / 0.1);
+    --fc-now-indicator-color: #00ffff;
+    --fc-neutral-bg-color: hsl(var(--background));
+    --fc-neutral-text-color: hsl(var(--muted-foreground));
+    --fc-button-text-color: hsl(var(--foreground));
+    --fc-button-bg-color: hsl(var(--secondary));
+    --fc-button-border-color: hsl(var(--border));
+    --fc-button-hover-bg-color: hsl(var(--accent));
+    --fc-button-hover-border-color: hsl(var(--accent));
+    --fc-button-active-bg-color: hsl(var(--accent));
+    --fc-button-active-border-color: hsl(var(--accent));
+    color: hsl(var(--foreground));
+    font-family: inherit;
+  }
+  
+  /* Calendar container */
+  .fc-theme-standard {
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius);
+    background: hsl(var(--card));
+  }
+  
+  /* Light mode: Black shadows */
+  :root .fc-theme-standard {
+    box-shadow: 
+      0 2px 8px rgba(0, 0, 0, 0.1),
+      0 4px 16px rgba(0, 0, 0, 0.08);
+  }
+  
+  /* Dark mode: Cyan shadows */
+  .dark .fc-theme-standard {
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+  }
+  
+  /* Header toolbar */
+  .fc-header-toolbar {
+    padding: 1rem;
+    border-bottom: 1px solid hsl(var(--border));
+    background: hsl(var(--card));
+  }
+  
+  /* Calendar buttons */
+  .fc-button {
+    background: hsl(var(--secondary)) !important;
+    border: 1px solid hsl(var(--border)) !important;
+    color: hsl(var(--foreground)) !important;
+    padding: 0.5rem 1rem !important;
+    border-radius: var(--radius) !important;
+    font-weight: 500 !important;
+    transition: all 0.2s ease !important;
+    text-transform: none !important;
+  }
+  
+  /* Light mode: Black shadow button effects */
+  :root .fc-button:hover {
+    background: hsl(var(--accent)) !important;
+    border-color: hsl(var(--accent)) !important;
+    color: hsl(var(--accent-foreground)) !important;
+    box-shadow: 
+      0 2px 8px rgba(0, 0, 0, 0.15),
+      0 4px 16px rgba(0, 0, 0, 0.1) !important;
+  }
+  
+  /* Dark mode: Cyan glow button effects */
+  .dark .fc-button:hover {
+    background: hsl(var(--accent)) !important;
+    border-color: hsl(var(--accent)) !important;
+    color: hsl(var(--accent-foreground)) !important;
+    box-shadow: 0 0 8px hsl(var(--accent) / 0.5) !important;
+  }
+  
+  /* Light mode: Black shadow focus */
+  :root .fc-button:focus {
+    box-shadow: 
+      0 0 0 2px rgba(0, 0, 0, 0.1),
+      0 0 0 4px rgba(0, 0, 0, 0.05),
+      0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  }
+  
+  /* Dark mode: Cyan glow focus */
+  .dark .fc-button:focus {
+    box-shadow: 0 0 0 3px hsl(var(--ring) / 0.5) !important;
+  }
+  
+  .fc-button:disabled {
+    opacity: 0.5 !important;
+    cursor: not-allowed !important;
+  }
+  
+  /* Light mode: Black shadow active */
+  :root .fc-button-active {
+    background: hsl(var(--accent)) !important;
+    border-color: hsl(var(--accent)) !important;
+    color: hsl(var(--accent-foreground)) !important;
+    box-shadow: 
+      0 2px 8px rgba(0, 0, 0, 0.2),
+      0 4px 16px rgba(0, 0, 0, 0.12) !important;
+  }
+  
+  /* Dark mode: Cyan glow active */
+  .dark .fc-button-active {
+    background: hsl(var(--accent)) !important;
+    border-color: hsl(var(--accent)) !important;
+    color: hsl(var(--accent-foreground)) !important;
+    box-shadow: 0 0 10px hsl(var(--accent) / 0.6) !important;
+  }
+  
+  /* Calendar title */
+  .fc-toolbar-title {
+    color: hsl(var(--foreground)) !important;
+    font-weight: bold !important;
+    font-size: 1.5rem !important;
+  }
+  
+  /* Light mode: Subtle black text shadow */
+  :root .fc-toolbar-title {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Dark mode: Cyan glow */
+  .dark .fc-toolbar-title {
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+  }
+  
+  /* Calendar cells */
+  .fc-daygrid-day {
+    border-color: hsl(var(--border)) !important;
+    background: hsl(var(--card)) !important;
+  }
+  
+  .fc-daygrid-day:hover {
+    background: hsl(var(--accent) / 0.05) !important;
+  }
+  
+  .fc-daygrid-day-top {
+    color: hsl(var(--foreground)) !important;
+  }
+  
+  /* Today cell */
+  .fc-day-today {
+    background: hsl(var(--accent) / 0.1) !important;
+    border-color: hsl(var(--accent)) !important;
+  }
+  
+  .fc-day-today .fc-daygrid-day-number {
+    color: hsl(var(--accent)) !important;
+    font-weight: bold !important;
+  }
+  
+  /* Day numbers */
+  .fc-daygrid-day-number {
+    color: hsl(var(--foreground)) !important;
+    padding: 0.5rem !important;
+  }
+  
+  /* Time grid */
+  .fc-timegrid-slot {
+    border-color: hsl(var(--border)) !important;
+  }
+  
+  .fc-timegrid-slot-label {
+    color: hsl(var(--muted-foreground)) !important;
+    border-color: hsl(var(--border)) !important;
+  }
+  
+  .fc-timegrid-col {
+    border-color: hsl(var(--border)) !important;
+  }
+  
+  /* Events */
+  .fc-event {
+    border: 1px solid !important;
+    border-radius: 4px !important;
+    padding: 2px 4px !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+  }
+  
+  /* Light mode: Black shadow event hover */
+  :root .fc-event:hover {
+    box-shadow: 
+      0 2px 8px rgba(0, 0, 0, 0.2),
+      0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    transform: translateY(-1px) !important;
+  }
+  
+  /* Dark mode: Original cyan glow event hover */
+  .dark .fc-event:hover {
+    box-shadow: 0 0 8px currentColor !important;
+    transform: translateY(-1px) !important;
+  }
+  
+  .fc-event-title {
+    font-weight: 500 !important;
+    color: inherit !important;
+  }
+  
+  .fc-event-time {
+    font-weight: 600 !important;
+  }
+  
+  /* Selected date/time */
+  .fc-highlight {
+    background: hsl(var(--accent) / 0.2) !important;
+    border-color: hsl(var(--accent)) !important;
+  }
+  
+  /* Light mode: Black shadow highlight */
+  :root .fc-highlight {
+    box-shadow: 
+      inset 0 0 10px rgba(0, 0, 0, 0.1),
+      0 2px 8px rgba(0, 0, 0, 0.15) !important;
+  }
+  
+  /* Dark mode: Cyan glow highlight */
+  .dark .fc-highlight {
+    box-shadow: inset 0 0 10px hsl(var(--accent) / 0.3) !important;
+  }
+  
+  /* Select mirror (when dragging to select time) */
+  .fc-select-mirror {
+    background: hsl(var(--accent) / 0.3) !important;
+    border: 1px dashed hsl(var(--accent)) !important;
+  }
+  
+  /* Light mode: Black shadow select mirror */
+  :root .fc-select-mirror {
+    box-shadow: 
+      0 2px 8px rgba(0, 0, 0, 0.2),
+      0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  }
+  
+  /* Now indicator */
+  .fc-timegrid-now-indicator-line {
+    border-color: #00ffff !important;
+    box-shadow: 0 0 5px rgba(0, 255, 255, 0.8) !important;
+  }
+  
+  .fc-timegrid-now-indicator-arrow {
+    border-color: #00ffff !important;
+  }
+  
+  /* Scrollbar styling */
+  .fc-scroller::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  .fc-scroller::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+  }
+  
+  .fc-scroller::-webkit-scrollbar-thumb {
+    background: hsl(var(--accent));
+    border-radius: 4px;
+  }
+  
+  .fc-scroller::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--accent) / 0.8);
+    box-shadow: 0 0 5px hsl(var(--accent) / 0.5);
+  }
+  
+  /* Light mode: Black shadow for now indicator */
+  :root .fc-timegrid-now-indicator-line {
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Dark mode: Cyan glow for now indicator */
+  .dark .fc-timegrid-now-indicator-line {
+    box-shadow: 0 0 5px rgba(0, 255, 255, 0.8);
+  }
+  
+  /* Week numbers and other elements */
+  .fc-col-header-cell {
+    background: hsl(var(--muted)) !important;
+    color: hsl(var(--foreground)) !important;
+    border-color: hsl(var(--border)) !important;
+    font-weight: 600 !important;
+    padding: 0.75rem !important;
+  }
+  
+  .fc-col-header-cell-cushion {
+    color: hsl(var(--foreground)) !important;
+  }
+  
+  /* More specific event styling */
+  .fc-daygrid-event {
+    border-left-width: 3px !important;
+  }
+  
+  .fc-timegrid-event {
+    border-left-width: 3px !important;
+  }
+  
+  /* Past events styling */
+  .fc-day-past .fc-daygrid-day-frame {
+    opacity: 0.7;
+  }
+  
+  /* Weekend styling */
+  .fc-day-sat,
+  .fc-day-sun {
+    background: hsl(var(--muted) / 0.3) !important;
+  }
+  
+  /* Dialog/Modal Styling */
+  .cyber-dialog {
+    background: hsl(var(--card)) !important;
+    border: 1px solid hsl(var(--border)) !important;
+    backdrop-filter: blur(10px);
+  }
+  
+  /* Light mode: Black shadows for floating effect */
+  :root .cyber-dialog {
+    box-shadow: 
+      0 4px 16px rgba(0, 0, 0, 0.12),
+      0 8px 32px rgba(0, 0, 0, 0.1),
+      0 16px 64px rgba(0, 0, 0, 0.08) !important;
+    border-color: rgba(0, 0, 0, 0.2) !important;
+  }
+  
+  /* Dark mode: Cyan glow */
+  .dark .cyber-dialog {
+    box-shadow: 
+      0 0 25px rgba(0, 255, 255, 0.3),
+      0 0 50px rgba(0, 255, 255, 0.15),
+      inset 0 0 25px rgba(0, 255, 255, 0.08) !important;
+    border-color: rgba(0, 255, 255, 0.4) !important;
+  }
+  
+  /* Dialog overlay with cyberpunk effect */
+  [data-slot="dialog-overlay"] {
+    background: rgba(0, 0, 0, 0.8) !important;
+    backdrop-filter: blur(4px);
+  }
+  
+  .dark [data-slot="dialog-overlay"] {
+    background: rgba(0, 0, 0, 0.9) !important;
+  }
+  
+  .light [data-slot="dialog-overlay"] {
+    background: rgba(0, 0, 0, 0.7) !important;
+  }
+  
+  /* Dialog title */
+  [data-slot="dialog-title"] {
+    color: hsl(var(--foreground)) !important;
+  }
+  
+  /* Light mode: Subtle black text shadow */
+  :root [data-slot="dialog-title"] {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Dark mode: Cyan glow */
+  .dark [data-slot="dialog-title"] {
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+  }
+  
+  /* Dialog description */
+  [data-slot="dialog-description"] {
+    color: hsl(var(--muted-foreground)) !important;
+  }
+  
+  /* Light mode: Black shadow close button hover */
+  :root [data-slot="dialog-close"]:hover {
+    background: hsl(var(--accent) / 0.1) !important;
+    color: hsl(var(--accent)) !important;
+    box-shadow: 
+      0 2px 8px rgba(0, 0, 0, 0.15),
+      0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  }
+  
+  /* Dark mode: Cyan glow close button hover */
+  .dark [data-slot="dialog-close"]:hover {
+    background: hsl(var(--accent) / 0.2) !important;
+    color: hsl(var(--accent)) !important;
+    box-shadow: 0 0 8px hsl(var(--accent) / 0.5) !important;
+  }
+  
+  /* Dialog content area */
+  [data-slot="dialog-content"] {
+    color: hsl(var(--card-foreground)) !important;
+  }
+  
+  /* Dialog footer buttons spacing */
+  [data-slot="dialog-footer"] {
+    margin-top: 1rem;
+  }
+  
+  /* Sheet/Modal Styling */
+  [data-slot="sheet-content"] {
+    background: hsl(var(--card)) !important;
+    border-color: hsl(var(--border)) !important;
+    backdrop-filter: blur(10px);
+  }
+  
+  /* Light mode: Black shadows for floating effect */
+  :root [data-slot="sheet-content"] {
+    box-shadow: 
+      -5px 0 20px rgba(0, 0, 0, 0.12),
+      -5px 0 40px rgba(0, 0, 0, 0.1),
+      -10px 0 80px rgba(0, 0, 0, 0.08) !important;
+    border-color: rgba(0, 0, 0, 0.2) !important;
+  }
+  
+  :root [data-slot="sheet-content"][data-side="left"] {
+    box-shadow: 
+      5px 0 20px rgba(0, 0, 0, 0.12),
+      5px 0 40px rgba(0, 0, 0, 0.1),
+      10px 0 80px rgba(0, 0, 0, 0.08) !important;
+  }
+  
+  /* Dark mode: Cyan glow */
+  .dark [data-slot="sheet-content"] {
+    box-shadow: 
+      -5px 0 25px rgba(0, 255, 255, 0.3),
+      -5px 0 50px rgba(0, 255, 255, 0.15),
+      inset 0 0 25px rgba(0, 255, 255, 0.08) !important;
+    border-color: rgba(0, 255, 255, 0.4) !important;
+  }
+  
+  .dark [data-slot="sheet-content"][data-side="left"] {
+    box-shadow: 
+      5px 0 25px rgba(0, 255, 255, 0.3),
+      5px 0 50px rgba(0, 255, 255, 0.15),
+      inset 0 0 25px rgba(0, 255, 255, 0.08) !important;
+  }
+  
+  /* Sheet overlay */
+  [data-slot="sheet-overlay"] {
+    background: rgba(0, 0, 0, 0.8) !important;
+    backdrop-filter: blur(4px);
+  }
+  
+  .dark [data-slot="sheet-overlay"] {
+    background: rgba(0, 0, 0, 0.9) !important;
+  }
+  
+  .light [data-slot="sheet-overlay"] {
+    background: rgba(0, 0, 0, 0.7) !important;
+  }
+  
+  /* Light mode: Black shadow sheet close button hover */
+  :root [data-slot="sheet-content"] [data-slot="sheet-close"]:hover,
+  :root [data-slot="sheet-content"] button[data-slot="sheet-close"]:hover {
+    background: hsl(var(--accent) / 0.1) !important;
+    color: hsl(var(--accent)) !important;
+    box-shadow: 
+      0 2px 8px rgba(0, 0, 0, 0.15),
+      0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  }
+  
+  /* Dark mode: Cyan glow sheet close button hover */
+  .dark [data-slot="sheet-content"] [data-slot="sheet-close"]:hover,
+  .dark [data-slot="sheet-content"] button[data-slot="sheet-close"]:hover {
+    background: hsl(var(--accent) / 0.2) !important;
+    color: hsl(var(--accent)) !important;
+    box-shadow: 0 0 8px hsl(var(--accent) / 0.5) !important;
+  }
+  
+  /* Popover Styling */
+  .cyber-popover {
+    background: hsl(var(--card)) !important;
+    border: 1px solid hsl(var(--border)) !important;
+    backdrop-filter: blur(10px);
+  }
+  
+  /* Light mode: Black shadows for floating effect */
+  :root .cyber-popover {
+    box-shadow: 
+      0 2px 8px rgba(0, 0, 0, 0.12),
+      0 4px 16px rgba(0, 0, 0, 0.1),
+      0 8px 32px rgba(0, 0, 0, 0.08) !important;
+    border-color: rgba(0, 0, 0, 0.2) !important;
+  }
+  
+  /* Dark mode: Cyan glow */
+  .dark .cyber-popover {
+    background: hsl(var(--card)) !important;
+    box-shadow: 
+      0 0 20px rgba(0, 255, 255, 0.2),
+      0 0 40px rgba(0, 255, 255, 0.1),
+      inset 0 0 20px rgba(0, 255, 255, 0.05) !important;
+    border-color: rgba(0, 255, 255, 0.4) !important;
+  }
+  
+  [data-slot="popover-content"] {
+    background: hsl(var(--card)) !important;
+    color: hsl(var(--card-foreground)) !important;
+  }
+  
+  /* Dropdown Menu Styling */
+  .cyber-dropdown {
+    background: hsl(var(--card)) !important;
+    border: 1px solid hsl(var(--border)) !important;
+    backdrop-filter: blur(10px);
+  }
+  
+  /* Light mode: Black shadows for floating effect */
+  :root .cyber-dropdown {
+    box-shadow: 
+      0 2px 8px rgba(0, 0, 0, 0.12),
+      0 4px 16px rgba(0, 0, 0, 0.1),
+      0 8px 32px rgba(0, 0, 0, 0.08) !important;
+    border-color: rgba(0, 0, 0, 0.2) !important;
+  }
+  
+  /* Dark mode: Cyan glow */
+  .dark .cyber-dropdown {
+    background: hsl(var(--card)) !important;
+    box-shadow: 
+      0 0 20px rgba(0, 255, 255, 0.2),
+      0 0 40px rgba(0, 255, 255, 0.1),
+      inset 0 0 20px rgba(0, 255, 255, 0.05) !important;
+    border-color: rgba(0, 255, 255, 0.4) !important;
+  }
+  
+  [data-slot="dropdown-menu-content"],
+  [data-slot="dropdown-menu-sub-content"] {
+    background: hsl(var(--card)) !important;
+    color: hsl(var(--card-foreground)) !important;
+  }
+  
+  /* Light mode: Black shadow dropdown menu item hover */
+  :root [data-slot="dropdown-menu-item"]:hover,
+  :root [data-slot="dropdown-menu-checkbox-item"]:hover,
+  :root [data-slot="dropdown-menu-radio-item"]:hover,
+  :root [data-slot="dropdown-menu-sub-trigger"]:hover {
+    background: hsl(var(--accent) / 0.1) !important;
+    color: hsl(var(--accent-foreground)) !important;
+  }
+  
+  /* Dark mode: Original dropdown menu item hover */
+  .dark [data-slot="dropdown-menu-item"]:hover,
+  .dark [data-slot="dropdown-menu-checkbox-item"]:hover,
+  .dark [data-slot="dropdown-menu-radio-item"]:hover,
+  .dark [data-slot="dropdown-menu-sub-trigger"]:hover {
+    background: hsl(var(--accent) / 0.2) !important;
+    color: hsl(var(--accent-foreground)) !important;
+  }
+  
+  /* Light mode: Black shadow dropdown menu item focus */
+  :root [data-slot="dropdown-menu-item"]:focus,
+  :root [data-slot="dropdown-menu-checkbox-item"]:focus,
+  :root [data-slot="dropdown-menu-radio-item"]:focus,
+  :root [data-slot="dropdown-menu-sub-trigger"]:focus {
+    background: hsl(var(--accent)) !important;
+    color: hsl(var(--accent-foreground)) !important;
+    box-shadow: 
+      0 2px 8px rgba(0, 0, 0, 0.15),
+      0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  }
+  
+  /* Dark mode: Cyan glow dropdown menu item focus */
+  .dark [data-slot="dropdown-menu-item"]:focus,
+  .dark [data-slot="dropdown-menu-checkbox-item"]:focus,
+  .dark [data-slot="dropdown-menu-radio-item"]:focus,
+  .dark [data-slot="dropdown-menu-sub-trigger"]:focus {
+    background: hsl(var(--accent)) !important;
+    color: hsl(var(--accent-foreground)) !important;
+    box-shadow: 0 0 8px hsl(var(--accent) / 0.5) !important;
+  }
+  
+  /* Dropdown menu separator */
+  [data-slot="dropdown-menu-separator"] {
+    background: hsl(var(--border)) !important;
+    opacity: 0.5;
+  }
+  
+  /* Dropdown menu label */
+  [data-slot="dropdown-menu-label"] {
+    color: hsl(var(--foreground)) !important;
+    opacity: 0.9;
+  }
+  
+  /* Dropdown menu shortcut */
+  [data-slot="dropdown-menu-shortcut"] {
+    color: hsl(var(--muted-foreground)) !important;
   }
 }

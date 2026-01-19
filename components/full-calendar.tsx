@@ -109,7 +109,7 @@ export default function Calendar() {
   // Edit dialog form state
   const [editTitle, setEditTitle] = useState('');
   const [editDescription, setEditDescription] = useState('');
-  const [editColor, setEditColor] = useState('#3788d8');
+  const [editColor, setEditColor] = useState('#00ffff');
   const [editStartTime, setEditStartTime] = useState('');
   const [editEndTime, setEditEndTime] = useState('');
 
@@ -280,7 +280,7 @@ export default function Calendar() {
     const event = clickInfo.event;
     setEditTitle(event.title || '');
     setEditDescription((event.extendedProps?.desc as string) || '');
-    setEditColor(event.backgroundColor || event.borderColor || '#3788d8');
+    setEditColor(event.backgroundColor || event.borderColor || '#00ffff');
     
     // Format dates for datetime-local input (YYYY-MM-DDTHH:mm)
     const formatDateTimeLocal = (date: Date | null | undefined) => {
@@ -381,7 +381,7 @@ export default function Calendar() {
     // Reset form
     setEditTitle('');
     setEditDescription('');
-    setEditColor('#3788d8');
+    setEditColor('#00ffff');
     setEditStartTime('');
     setEditEndTime('');
   }, [userId, pendingClickInfo, editTitle, editDescription, editColor, editStartTime, editEndTime]);
@@ -425,7 +425,7 @@ export default function Calendar() {
     // Reset form
     setEditTitle('');
     setEditDescription('');
-    setEditColor('#3788d8');
+    setEditColor('#00ffff');
     setEditStartTime('');
     setEditEndTime('');
   }, [userId, pendingClickInfo]);
@@ -463,7 +463,7 @@ export default function Calendar() {
   }
 
   return (
-    <>
+    <div className="calendar-wrapper">
       <FullCalendar
         ref={calendarRef}
         initialView="timeGridDay"
@@ -483,6 +483,7 @@ export default function Calendar() {
         eventChange={handleEventChange}
         eventClick={handleEventClick}
         eventContent={renderEventContent}
+        eventDefaultAllDay={false}
       />
 
       {/* Create Event Dialog */}
@@ -553,7 +554,7 @@ export default function Calendar() {
             // Reset form
             setEditTitle('');
             setEditDescription('');
-            setEditColor('#3788d8');
+            setEditColor('#00ffff');
             setEditStartTime('');
             setEditEndTime('');
           }
@@ -604,7 +605,7 @@ export default function Calendar() {
                   type="text"
                   value={editColor}
                   onChange={(e) => setEditColor(e.target.value)}
-                  placeholder="#3788d8"
+                  placeholder="#00ffff"
                   className="flex-1"
                   maxLength={7}
                 />
@@ -638,7 +639,7 @@ export default function Calendar() {
                 // Reset form
                 setEditTitle('');
                 setEditDescription('');
-                setEditColor('#3788d8');
+                setEditColor('#00ffff');
                 setEditStartTime('');
                 setEditEndTime('');
               }}
@@ -677,6 +678,6 @@ export default function Calendar() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </>
+    </div>
   );
 }
