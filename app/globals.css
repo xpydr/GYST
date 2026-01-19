@@ -147,17 +147,108 @@
       0 0 8px hsl(var(--ring) / 0.4);
   }
   
-  /* Light mode: Black shadow button hover effects */
-  :root button:hover:not(:disabled) {
+  /* Light mode: Black shadow button hover effects (only for non-Button component buttons) */
+  :root button:not([data-slot="button"]):hover:not(:disabled) {
     transition: all 0.2s ease;
     box-shadow: 
       0 2px 8px rgba(0, 0, 0, 0.1),
       0 4px 16px rgba(0, 0, 0, 0.08);
   }
   
-  /* Dark mode: Keep original button hover effects */
-  .dark button:hover:not(:disabled) {
+  /* Dark mode: Keep original button hover effects (only for non-Button component buttons) */
+  .dark button:not([data-slot="button"]):hover:not(:disabled) {
     transition: all 0.2s ease;
+  }
+  
+  /* Button component styles - ensure cursor and hover effects work */
+  [data-slot="button"] {
+    cursor: pointer;
+  }
+  
+  [data-slot="button"]:disabled {
+    cursor: not-allowed;
+  }
+  
+  /* Light mode: Button component hover effects */
+  :root [data-slot="button"]:hover:not(:disabled) {
+    transition: all 0.2s ease;
+  }
+  
+  :root [data-slot="button"][data-variant="default"]:hover:not(:disabled) {
+    box-shadow: 
+      0 2px 8px rgba(0, 0, 0, 0.1),
+      0 4px 16px rgba(0, 0, 0, 0.08);
+  }
+  
+  :root [data-slot="button"][data-variant="destructive"]:hover:not(:disabled) {
+    box-shadow: 
+      0 2px 8px rgba(0, 0, 0, 0.15),
+      0 4px 16px rgba(0, 0, 0, 0.1);
+  }
+  
+  :root [data-slot="button"][data-variant="outline"]:hover:not(:disabled),
+  :root [data-slot="button"][data-variant="secondary"]:hover:not(:disabled),
+  :root [data-slot="button"][data-variant="ghost"]:hover:not(:disabled) {
+    box-shadow: 
+      0 2px 8px rgba(0, 0, 0, 0.1),
+      0 4px 16px rgba(0, 0, 0, 0.08);
+  }
+  
+  /* Light mode: Button component active effects */
+  :root [data-slot="button"][data-variant="default"]:active:not(:disabled) {
+    box-shadow: 
+      0 2px 8px rgba(0, 0, 0, 0.15),
+      0 4px 16px rgba(0, 0, 0, 0.1);
+  }
+  
+  :root [data-slot="button"][data-variant="destructive"]:active:not(:disabled) {
+    box-shadow: 
+      0 2px 8px rgba(0, 0, 0, 0.2),
+      0 4px 16px rgba(0, 0, 0, 0.12);
+  }
+  
+  :root [data-slot="button"][data-variant="outline"]:active:not(:disabled),
+  :root [data-slot="button"][data-variant="secondary"]:active:not(:disabled),
+  :root [data-slot="button"][data-variant="ghost"]:active:not(:disabled) {
+    box-shadow: 
+      0 2px 8px rgba(0, 0, 0, 0.15),
+      0 4px 16px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Dark mode: Button component hover effects */
+  .dark [data-slot="button"][data-variant="default"]:hover:not(:disabled) {
+    box-shadow: 0 0 8px hsl(var(--primary-foreground) / 0.5);
+  }
+  
+  .dark [data-slot="button"][data-variant="destructive"]:hover:not(:disabled) {
+    box-shadow: 0 0 8px hsl(var(--destructive) / 0.5);
+  }
+  
+  .dark [data-slot="button"][data-variant="outline"]:hover:not(:disabled),
+  .dark [data-slot="button"][data-variant="ghost"]:hover:not(:disabled) {
+    box-shadow: 0 0 8px hsl(var(--accent) / 0.5);
+  }
+  
+  .dark [data-slot="button"][data-variant="secondary"]:hover:not(:disabled) {
+    box-shadow: 0 0 8px hsl(var(--secondary-foreground) / 0.3);
+  }
+  
+  /* Dark mode: Button component active effects */
+  .dark [data-slot="button"][data-variant="default"]:active:not(:disabled) {
+    box-shadow: 0 0 10px hsl(var(--primary-foreground) / 0.6);
+  }
+  
+  .dark [data-slot="button"][data-variant="destructive"]:active:not(:disabled) {
+    box-shadow: 0 0 10px hsl(var(--destructive) / 0.6);
+  }
+  
+  .dark [data-slot="button"][data-variant="outline"]:active:not(:disabled),
+  .dark [data-slot="button"][data-variant="ghost"]:active:not(:disabled) {
+    box-shadow: 0 0 10px hsl(var(--accent) / 0.6);
+  }
+  
+  .dark [data-slot="button"][data-variant="secondary"]:active:not(:disabled) {
+    box-shadow: 0 0 10px hsl(var(--secondary-foreground) / 0.4);
   }
   
   /* Light mode: Black borders and shadows for floating effect on cards and containers */
@@ -604,6 +695,18 @@
     text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
   }
   
+  /* Todo list drag over state */
+  .todo-drop-zone.drag-over {
+    background-color: hsl(var(--accent) / 0.15);
+    border: 2px dashed hsl(var(--primary));
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+  }
+  
+  .todo-drop-zone.drag-over > * {
+    opacity: 0.8;
+  }
+
   /* Calendar cells */
   .fc-daygrid-day {
     border-color: hsl(var(--border)) !important;
