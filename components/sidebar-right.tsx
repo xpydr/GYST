@@ -1,9 +1,12 @@
+"use client"
+
 import * as React from "react"
 import { Plus } from "lucide-react"
 
 import { Calendars } from "@/components/calendars"
 import { DatePicker } from "@/components/date-picker"
 import { NavUser } from "@/components/nav-user"
+import { createClient } from "@/lib/supabase/client"
 import {
   Sidebar,
   SidebarContent,
@@ -18,11 +21,6 @@ import {
 
 // This is sample data.
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   calendars: [
     {
       name: "My Calendars",
@@ -42,6 +40,35 @@ const data = {
 export function SidebarRight({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
+  const [userEmail, setUserEmail] = React.useState<string>("")
+  const [isLoading, setIsLoading] = React.useState(true)
+
+  React.useEffect(() => {
+    async function fetchUserEmail() {
+      const supabase = createClient()
+      const { data: { user } } = await supabase.auth.getUser()
+      
+      if (user?.email) {
+        setUserEmail(user.email)
+      }
+      setIsLoading(false)
+    }
+
+    fetchUserEmail()
+  }, [])
+
+  // Get display name from email (use part before @)
+  const getDisplayName = (email: string) => {
+    if (!email) return "User"
+    return email.split("@")[0]
+  }
+
+  const user = userEmail ? {
+    name: getDisplayName(userEmail),
+    email: userEmail,
+    avatar: "", // No avatar URL for now
+  } : null
+
   return (
     <Sidebar
       collapsible="none"
@@ -49,7 +76,7 @@ export function SidebarRight({
       {...props}
     >
       <SidebarHeader className="border-sidebar-border h-16 border-b">
-        <NavUser user={data.user} />
+        {!isLoading && user && <NavUser user={user} />}
       </SidebarHeader>
       <SidebarContent>
         <DatePicker />
