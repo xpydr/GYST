@@ -1,7 +1,8 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useState, useCallback, useEffect } from "react";
 import dynamic from "next/dynamic";
+import type { EventInput } from '@fullcalendar/core';
 
 import { SidebarLeft } from "@/components/sidebar-left";
 import { SidebarRight } from "@/components/sidebar-right";
@@ -30,10 +31,22 @@ const Calendar = dynamic(() => import("@/components/full-calendar"), {
 });
 
 export default function Dashboard() {
+  const [allEvents, setAllEvents] = useState<EventInput[]>([]);
+  const [userId, setUserId] = useState<string | null>(null);
+
+  const handleEventsChange = useCallback((events: EventInput[]) => {
+    setAllEvents(events);
+  }, []);
+
   return (
     <Suspense fallback={null}>
       <SidebarProvider>
-        <SidebarLeft />
+        <SidebarLeft 
+          allEvents={allEvents}
+          onEventsChange={handleEventsChange}
+          userId={userId}
+          onUserIdChange={setUserId}
+        />
         <SidebarInset>
           <header className="bg-background sticky top-0 flex h-14 shrink-0 items-center gap-2 border-b border-cyan-500/20 backdrop-blur-sm bg-background/95">
             <div className="flex flex-1 items-center gap-2 px-3">
@@ -46,7 +59,7 @@ export default function Dashboard() {
                 <BreadcrumbList>
                   <BreadcrumbItem>
                     <BreadcrumbPage className="line-clamp-1 neon-cyan font-bold">
-                      : )
+                      {': )'}
                     </BreadcrumbPage>
                   </BreadcrumbItem>
                 </BreadcrumbList>
@@ -55,7 +68,11 @@ export default function Dashboard() {
           </header>
           <div className="flex flex-1 flex-col gap-4 p-4 bg-background">
             <div className="mx-auto w-full max-w-5xl rounded-xl p-4">
-              <Calendar />
+              <Calendar 
+                allEvents={allEvents}
+                onEventsChange={handleEventsChange}
+                onUserIdChange={setUserId}
+              />
             </div>
           </div>
         </SidebarInset>
