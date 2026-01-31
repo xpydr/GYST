@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { usePathname } from "next/navigation"
 import {
   AudioWaveform,
   Calendar,
@@ -50,14 +51,12 @@ const data = {
       title: "Home",
       url: "/home",
       icon: Home,
-      isActive: true,
     },
     {
       title: "Goals",
       url: "/goals",
       icon: Target,
-      isActive: false,
-    }
+    },
   ],
   navSecondary: [
     {
@@ -122,6 +121,9 @@ export function SidebarLeft({
   onUserIdChange,
   ...props
 }: SidebarLeftProps) {
+  const pathname = usePathname()
+  const isHome = pathname === "/home"
+
   return (
     <Sidebar className="border-r-0" {...props}>
       <SidebarHeader>
@@ -129,12 +131,16 @@ export function SidebarLeft({
         <NavMain items={data.navMain} />
       </SidebarHeader>
       <SidebarContent>
-        <EventList 
-          events={allEvents}
-          onEventsChange={onEventsChange}
-          userId={userId || null}
-        />
-        <SidebarSeparator />
+        {isHome && (
+          <>
+            <EventList 
+              events={allEvents}
+              onEventsChange={onEventsChange}
+              userId={userId || null}
+            />
+            <SidebarSeparator />
+          </>
+        )}
         <NavFavorites favorites={data.favorites} />
         <NavWorkspaces workspaces={data.workspaces} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
