@@ -8,6 +8,7 @@ import {
   Home,
   MessageCircleQuestion,
   Settings2,
+  Target,
 } from "lucide-react"
 import type { EventInput } from '@fullcalendar/core';
 
@@ -47,10 +48,16 @@ const data = {
   navMain: [
     {
       title: "Home",
-      url: "#",
+      url: "/home",
       icon: Home,
       isActive: true,
     },
+    {
+      title: "Goals",
+      url: "/goals",
+      icon: Target,
+      isActive: false,
+    }
   ],
   navSecondary: [
     {
