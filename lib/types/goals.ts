@@ -6,6 +6,7 @@ export type GoalInfo = {
   deadline: string | null;
   target: number | null;
   counter: number;
+  completed?: boolean;
 };
 
 /**

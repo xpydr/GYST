@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { format } from "date-fns";
-import { Plus, Pencil, Trash2, Minus } from "lucide-react";
+import { Plus, Pencil, Trash2, Minus, MoreHorizontal, CheckCircle2, Circle } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import type { GoalRow, GoalInfo } from "@/lib/types/goals";
 import {
@@ -20,10 +20,20 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { User } from "@supabase/supabase-js";
 
@@ -33,6 +43,7 @@ function defaultGoalInfo(): GoalInfo {
     deadline: null,
     target: null,
     counter: 0,
+    completed: false,
   };
 }
 
@@ -53,6 +64,7 @@ function parseGoalInfo(raw: unknown): GoalInfo {
         typeof o.counter === "number" && Number.isFinite(o.counter)
           ? o.counter
           : 0,
+      completed: o.completed === true,
     };
   }
   return defaultGoalInfo();
@@ -116,6 +128,7 @@ export default function GoalsPage() {
       deadline: createDeadline.trim() || null,
       target: createTarget.trim() ? parseInt(createTarget, 10) : null,
       counter: 0,
+      completed: false,
     };
     if (info.target != null && (isNaN(info.target) || info.target < 0)) {
       info.target = null;
@@ -222,6 +235,37 @@ export default function GoalsPage() {
     setEditDialogOpen(false);
   }, [user, selectedGoal]);
 
+  const handleToggleComplete = useCallback(
+    async (goal: GoalRow) => {
+      if (!user) return;
+
+      const info = parseGoalInfo(goal.info);
+      const updatedInfo: GoalInfo = { ...info, completed: !info.completed };
+
+      const supabase = createClient();
+      const { error } = await supabase
+        .from("goals")
+        .update({
+          info: updatedInfo,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", goal.id)
+        .eq("user_id", user.id);
+
+      if (error) {
+        console.error("Error toggling completion:", error);
+        setErrorMessage("Failed to update goal. Please try again.");
+        setErrorDialogOpen(true);
+        return;
+      }
+
+      setGoals((prev) =>
+        prev.map((g) => (g.id === goal.id ? { ...g, info: updatedInfo } : g))
+      );
+    },
+    [user]
+  );
+
   const handleCounterChange = useCallback(
     async (goal: GoalRow, delta: 1 | -1) => {
       if (!user) return;
@@ -283,89 +327,197 @@ export default function GoalsPage() {
     <div className="mx-auto w-full max-w-5xl rounded-xl p-4">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold">Goals</h1>
-        <Button onClick={() => setCreateDialogOpen(true)}>
+        <Button
+          variant="outline"
+          onClick={() => setCreateDialogOpen(true)}
+          className="border-cyan-500/30 bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 hover:border-cyan-500 hover:text-cyan-300 dark:hover:shadow-[0_0_12px_rgba(0,255,255,0.4)] transition-all duration-200"
+        >
           <Plus className="h-4 w-4 mr-2" />
           Add goal
         </Button>
       </div>
 
-      {goals.length === 0 ? (
-        <p className="text-muted-foreground py-8">
-          No goals yet. Click &quot;Add goal&quot; to create one.
-        </p>
-      ) : (
-        <div className="grid gap-4 sm:grid-cols-1 lg:grid-cols-2">
-          {goals.map((goal) => {
-            const info = parseGoalInfo(goal.info);
-            const progressLabel =
-              info.target != null
-                ? `${info.counter} / ${info.target}`
-                : String(info.counter);
-            return (
-              <Card key={String(goal.id)}>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-lg">{info.title}</CardTitle>
-                  {info.deadline && (
-                    <CardDescription>
-                      Deadline: {format(new Date(info.deadline), "MMM d, yyyy")}
-                    </CardDescription>
-                  )}
-                </CardHeader>
-                <CardContent className="pb-2">
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium">Progress: {progressLabel}</span>
-                    <div className="flex items-center gap-1">
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        className="h-8 w-8"
-                        onClick={() => handleCounterChange(goal, -1)}
-                        disabled={info.counter <= 0}
-                        aria-label="Decrement"
-                      >
-                        <Minus className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        className="h-8 w-8"
-                        onClick={() => handleCounterChange(goal, 1)}
-                        disabled={
-                          info.target != null && info.counter >= info.target
-                        }
-                        aria-label="Increment"
-                      >
-                        <Plus className="h-4 w-4" />
-                      </Button>
-                    </div>
+      {(() => {
+        const activeGoals = goals.filter((g) => !parseGoalInfo(g.info).completed);
+        const completedGoals = goals.filter((g) => parseGoalInfo(g.info).completed);
+        return (
+          <>
+            {activeGoals.length === 0 && completedGoals.length === 0 ? (
+              <p className="text-muted-foreground py-8">
+                No goals yet. Click &quot;Add goal&quot; to create one.
+              </p>
+            ) : (
+              <>
+                {activeGoals.length > 0 && (
+                  <div className="grid gap-4 sm:grid-cols-1 lg:grid-cols-2">
+                    {activeGoals.map((goal) => {
+                      const info = parseGoalInfo(goal.info);
+                      const progressLabel =
+                        info.target != null
+                          ? `${info.counter} / ${info.target}`
+                          : String(info.counter);
+                      return (
+                        <Card
+                          key={String(goal.id)}
+                          className="border border-cyan-500/30 transition-all duration-300 hover:border-cyan-500 hover:glow-cyan"
+                        >
+                          <CardHeader className="pb-2">
+                            <div className="flex items-start justify-between gap-2">
+                              <div className="min-w-0 flex-1">
+                                <CardTitle className="text-lg">{info.title}</CardTitle>
+                                {info.deadline && (
+                                  <CardDescription>
+                                    Deadline: {format(new Date(info.deadline), "MMM d, yyyy")}
+                                  </CardDescription>
+                                )}
+                              </div>
+                              <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                  <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="h-8 w-8 shrink-0 text-muted-foreground hover:text-cyan-400 hover:bg-cyan-500/10 transition-colors duration-200"
+                                    aria-label="More options"
+                                  >
+                                    <MoreHorizontal className="h-4 w-4" />
+                                  </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                  <DropdownMenuItem onClick={() => openEdit(goal)}>
+                                    <Pencil className="h-4 w-4 mr-2" />
+                                    Edit
+                                  </DropdownMenuItem>
+                                  <DropdownMenuItem onClick={() => handleToggleComplete(goal)}>
+                                    <CheckCircle2 className="h-4 w-4 mr-2" />
+                                    Mark as completed
+                                  </DropdownMenuItem>
+                                  <DropdownMenuItem
+                                    variant="destructive"
+                                    onClick={() => openDelete(goal)}
+                                  >
+                                    <Trash2 className="h-4 w-4 mr-2" />
+                                    Delete
+                                  </DropdownMenuItem>
+                                </DropdownMenuContent>
+                              </DropdownMenu>
+                            </div>
+                          </CardHeader>
+                          <CardContent className="pb-2">
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm font-medium">Progress: {progressLabel}</span>
+                              <div className="flex items-center gap-1">
+                                <Button
+                                  variant="outline"
+                                  size="icon"
+                                  className="h-8 w-8 border-cyan-500/30 text-foreground hover:border-cyan-500 hover:bg-cyan-500/10 hover:text-cyan-400 dark:hover:shadow-[0_0_8px_rgba(0,255,255,0.4)] transition-all duration-200"
+                                  onClick={() => handleCounterChange(goal, -1)}
+                                  disabled={info.counter <= 0}
+                                  aria-label="Decrement"
+                                >
+                                  <Minus className="h-4 w-4" />
+                                </Button>
+                                <Button
+                                  variant="outline"
+                                  size="icon"
+                                  className="h-8 w-8 border-cyan-500/30 text-foreground hover:border-cyan-500 hover:bg-cyan-500/10 hover:text-cyan-400 dark:hover:shadow-[0_0_8px_rgba(0,255,255,0.4)] transition-all duration-200"
+                                  onClick={() => handleCounterChange(goal, 1)}
+                                  disabled={
+                                    info.target != null && info.counter >= info.target
+                                  }
+                                  aria-label="Increment"
+                                >
+                                  <Plus className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      );
+                    })}
                   </div>
-                </CardContent>
-                <CardFooter className="flex gap-2 pt-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => openEdit(goal)}
-                    aria-label="Edit goal"
-                  >
-                    <Pencil className="h-4 w-4 mr-1" />
-                    Edit
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="text-destructive hover:text-destructive"
-                    onClick={() => openDelete(goal)}
-                    aria-label="Delete goal"
-                  >
-                    <Trash2 className="h-4 w-4 mr-1" />
-                    Delete
-                  </Button>
-                </CardFooter>
-              </Card>
-            );
-          })}
-        </div>
-      )}
+                )}
+                {completedGoals.length > 0 && (
+                  <Collapsible className="mt-8">
+                    <CollapsibleTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        className="w-full justify-between px-0 text-muted-foreground hover:text-cyan-400 hover:bg-cyan-500/5 transition-colors duration-200"
+                      >
+                        <span className="font-medium">Completed ({completedGoals.length})</span>
+                        <span className="text-xs">Show / hide</span>
+                      </Button>
+                    </CollapsibleTrigger>
+                    <CollapsibleContent>
+                      <div className="grid gap-4 sm:grid-cols-1 lg:grid-cols-2 pt-4">
+                        {completedGoals.map((goal) => {
+                          const info = parseGoalInfo(goal.info);
+                          const progressLabel =
+                            info.target != null
+                              ? `${info.counter} / ${info.target}`
+                              : String(info.counter);
+                          return (
+                            <Card
+                              key={String(goal.id)}
+                              className="opacity-80 border border-cyan-500/20 transition-all duration-300 hover:border-cyan-500/60 hover:opacity-100"
+                            >
+                              <CardHeader className="pb-2">
+                                <div className="flex items-start justify-between gap-2">
+                                  <div className="min-w-0 flex-1">
+                                    <CardTitle className="text-lg line-through">{info.title}</CardTitle>
+                                    {info.deadline && (
+                                      <CardDescription>
+                                        Deadline: {format(new Date(info.deadline), "MMM d, yyyy")}
+                                      </CardDescription>
+                                    )}
+                                  </div>
+                                  <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                      <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-8 w-8 shrink-0 text-muted-foreground hover:text-cyan-400 hover:bg-cyan-500/10 transition-colors duration-200"
+                                        aria-label="More options"
+                                      >
+                                        <MoreHorizontal className="h-4 w-4" />
+                                      </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent align="end">
+                                      <DropdownMenuItem onClick={() => openEdit(goal)}>
+                                        <Pencil className="h-4 w-4 mr-2" />
+                                        Edit
+                                      </DropdownMenuItem>
+                                      <DropdownMenuItem onClick={() => handleToggleComplete(goal)}>
+                                        <Circle className="h-4 w-4 mr-2" />
+                                        Mark as incomplete
+                                      </DropdownMenuItem>
+                                      <DropdownMenuItem
+                                        variant="destructive"
+                                        onClick={() => openDelete(goal)}
+                                      >
+                                        <Trash2 className="h-4 w-4 mr-2" />
+                                        Delete
+                                      </DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                  </DropdownMenu>
+                                </div>
+                              </CardHeader>
+                              <CardContent className="pb-2">
+                                <span className="text-sm font-medium text-muted-foreground">
+                                  Progress: {progressLabel}
+                                </span>
+                              </CardContent>
+                            </Card>
+                          );
+                        })}
+                      </div>
+                    </CollapsibleContent>
+                  </Collapsible>
+                )}
+              </>
+            )}
+          </>
+        );
+      })()}
 
       {/* Create dialog */}
       <Dialog
