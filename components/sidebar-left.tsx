@@ -3,16 +3,11 @@
 import * as React from "react"
 import {
   AudioWaveform,
-  Blocks,
   Calendar,
   Command,
   Home,
-  Inbox,
   MessageCircleQuestion,
-  Search,
   Settings2,
-  Sparkles,
-  Trash2,
 } from "lucide-react"
 import type { EventInput } from '@fullcalendar/core';
 
@@ -51,26 +46,10 @@ const data = {
   ],
   navMain: [
     {
-      title: "Search",
-      url: "#",
-      icon: Search,
-    },
-    {
-      title: "Ask AI",
-      url: "#",
-      icon: Sparkles,
-    },
-    {
       title: "Home",
       url: "#",
       icon: Home,
       isActive: true,
-    },
-    {
-      title: "Inbox",
-      url: "#",
-      icon: Inbox,
-      badge: "10",
     },
   ],
   navSecondary: [
@@ -92,38 +71,12 @@ const data = {
   ],
   favorites: [
     {
-      name: "Project Management & Task Tracking",
-      url: "#",
-      emoji: "📊",
-    },
-    {
       name: "Daily Habit Tracker & Goal Setting",
       url: "#",
       emoji: "✅",
     },
   ],
   workspaces: [
-    {
-      name: "Personal Life Management",
-      emoji: "🏠",
-      pages: [
-        {
-          name: "Daily Journal & Reflection",
-          url: "#",
-          emoji: "📔",
-        },
-        {
-          name: "Health & Wellness Tracker",
-          url: "#",
-          emoji: "🍏",
-        },
-        {
-          name: "Personal Growth & Learning Goals",
-          url: "#",
-          emoji: "🌟",
-        },
-      ],
-    },
     {
       name: "Professional Development",
       emoji: "💼",
@@ -142,27 +95,6 @@ const data = {
           name: "Networking Contacts & Events",
           url: "#",
           emoji: "🤝",
-        },
-      ],
-    },
-    {
-      name: "Travel & Adventure",
-      emoji: "🧳",
-      pages: [
-        {
-          name: "Trip Planning & Itineraries",
-          url: "#",
-          emoji: "🗺️",
-        },
-        {
-          name: "Travel Bucket List & Inspiration",
-          url: "#",
-          emoji: "🌎",
-        },
-        {
-          name: "Travel Journal & Photo Gallery",
-          url: "#",
-          emoji: "📸",
         },
       ],
     },
